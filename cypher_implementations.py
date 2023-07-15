@@ -1,3 +1,7 @@
+import math
+import random
+
+
 def caesar_encryption(plaintext, key):
     """Implements the Caesar cipher encryption algorithm.
 
@@ -115,10 +119,91 @@ def rail_fence_decryption(ciphertext, rails):
     
     return plaintext
 
+def rotary_enigma_encrypt(plaintext, key):
+    """Implements the rotary enigma encryption algorithm.
 
+    Args:
+        plaintext (str): The plaintext to encrypt.
+        key (int): The key to use.
 
+    Returns:
+        str: The encrypted text.
+    """
+    random.seed(key)
+    rotors_seed = [random.randint(1, 2**32-1) for _ in range(3)] # 32 bits of entropy
+    rotors = [[i for i in range(26)] for _ in range(3)]
+    for i in range(3):
+        random.seed(rotors_seed[i])
+        random.shuffle(rotors[i])
+
+    random.seed(key)
+    ciphertext = ""
+
+    rotors_counters = [0 for _ in range(3)]
+    
+    for char in plaintext:
+        if not char.isalpha():
+            ciphertext += char
+        else:
+            char_value = ord(char.lower()) - ord('a')
+            char_value = (char_value + rotors[0][rotors_counters[0]]) % 26
+            char_value = (char_value + rotors[1][rotors_counters[1]]) % 26
+            char_value = (char_value + rotors[2][rotors_counters[2]]) % 26
+            cipherchar = chr(char_value + ord('a'))
+            ciphertext += cipherchar.upper() if char.isupper() else cipherchar
+
+            rotors[0][rotors_counters[0]] = (rotors[0][rotors_counters[0]] + 1) % 26
+            if rotors[0][rotors_counters[0]] == 0:
+                rotors[1][rotors_counters[1]] = (rotors[1][rotors_counters[1]] + 1) % 26
+                if rotors[1][rotors_counters[1]] == 0:
+                    rotors[2][rotors_counters[2]] = (rotors[2][rotors_counters[2]] + 1) % 26
+
+    return ciphertext
+
+def rotary_enigma_decrypt(ciphertext, key):
+    """Implements the rotary enigma decryption algorithm.
+
+    Args:
+        ciphertext (str): The ciphertext to decrypt.
+        key (int): The key to use.
+
+    Returns:
+        str: The decrypted text.
+    """
+    random.seed(key)
+    rotors_seed = [random.randint(1, 2**32-1) for _ in range(3)] # 32 bits of entropy
+    rotors = [[i for i in range(26)] for _ in range(3)]
+    for i in range(3):
+        random.seed(rotors_seed[i])
+        random.shuffle(rotors[i])
+
+    random.seed(key)
+    plaintext = ""
+
+    rotors_counters = [0 for _ in range(3)]
+    
+    for char in ciphertext:
+        if not char.isalpha():
+            plaintext += char
+        else:
+            char_value = ord(char.lower()) - ord('a')
+            char_value = (char_value - rotors[2][rotors_counters[2]]) % 26
+            char_value = (char_value - rotors[1][rotors_counters[1]]) % 26
+            char_value = (char_value - rotors[0][rotors_counters[0]]) % 26
+            plainchar = chr(char_value + ord('a'))
+            plaintext += plainchar.upper() if char.isupper() else plainchar
+
+            rotors[0][rotors_counters[0]] = (rotors[0][rotors_counters[0]] + 1) % 26
+            if rotors[0][rotors_counters[0]] == 0:
+                rotors[1][rotors_counters[1]] = (rotors[1][rotors_counters[1]] + 1) % 26
+                if rotors[1][rotors_counters[1]] == 0:
+                    rotors[2][rotors_counters[2]] = (rotors[2][rotors_counters[2]] + 1) % 26
+
+    return plaintext
 
 print(caesar_encryption("Hello World!", 3))
 print(caesar_decryption((caesar_encryption("Hello World!", 3)), 3))
 print(rail_fence_encryption("Hello World!", 3))
 print(rail_fence_decryption((rail_fence_encryption("Hello World!", 3)), 3))
+print(rotary_enigma_encrypt("Hello World!", 3))
+print(rotary_enigma_decrypt((rotary_enigma_encrypt("Hello World!", 3)), 3))
