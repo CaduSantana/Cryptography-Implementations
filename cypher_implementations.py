@@ -201,9 +201,73 @@ def rotary_enigma_decrypt(ciphertext, key):
 
     return plaintext
 
-print(caesar_encryption("Hello World!", 3))
-print(caesar_decryption((caesar_encryption("Hello World!", 3)), 3))
-print(rail_fence_encryption("Hello World!", 3))
-print(rail_fence_decryption((rail_fence_encryption("Hello World!", 3)), 3))
-print(rotary_enigma_encrypt("Hello World!", 3))
-print(rotary_enigma_decrypt((rotary_enigma_encrypt("Hello World!", 3)), 3))
+def get_text_from_file(filename):
+    """Reads the contents of a file and returns it as a string.
+
+    Args:
+        filename (str): The name of the file to read.
+
+    Returns:
+        str: The contents of the file.
+    """
+    with open(filename, "r") as file:
+        return file.read()
+
+# Main method
+def main():
+    # Read the plaintext from the file
+    plaintext = get_text_from_file("plaintext.txt")
+
+    # Encrypt the plaintext using the Caesar cipher
+    ciphertext = caesar_encryption(plaintext, 3)
+
+    # Write the ciphertext to a file
+    with open("caesarCrypto.txt", "w") as file:
+        file.write(ciphertext)
+
+    # Read the ciphertext from the file
+    ciphertext = get_text_from_file("caesarCrypto.txt")
+
+    # Decrypt the ciphertext using the Caesar cipher
+    plaintext = caesar_decryption(ciphertext, 3)
+
+    # Write the plaintext to a file
+    with open("caesarPlain.txt", "w") as file:
+        file.write(plaintext)
+
+    # Encrypt the plaintext using the rail fence cipher
+    ciphertext = rail_fence_encryption(plaintext, 3)
+
+    # Write the ciphertext to a file
+    with open("railCrypto.txt", "w") as file:
+        file.write(ciphertext)
+
+    # Read the ciphertext from the file
+    ciphertext = get_text_from_file("railCrypto.txt")
+
+    # Decrypt the ciphertext using the rail fence cipher
+    plaintext = rail_fence_decryption(ciphertext, 3)
+
+    # Write the plaintext to a file
+    with open("railPlain.txt", "w") as file:
+        file.write(plaintext)
+
+    # Encrypt the plaintext using the rotary enigma cipher
+    ciphertext = rotary_enigma_encrypt(plaintext, 3)
+
+    # Write the ciphertext to a file
+    with open("enigmaCrypto.txt", "w") as file:
+        file.write(ciphertext)
+
+    # Read the ciphertext from the file
+    ciphertext = get_text_from_file("enigmaCrypto.txt")
+
+    # Decrypt the ciphertext using the rotary enigma cipher
+    plaintext = rotary_enigma_decrypt(ciphertext, 3)
+
+    # Write the plaintext to a file
+    with open("enigmaPlain.txt", "w") as file:
+        file.write(plaintext)
+
+if __name__ == "__main__":
+    main()
