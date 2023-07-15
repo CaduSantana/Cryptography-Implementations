@@ -217,9 +217,10 @@ def get_text_from_file(filename):
 def main():
     # Read the plaintext from the file
     plaintext = get_text_from_file("plaintext.txt")
+    key = int(get_text_from_file("key.txt"))
 
     # Encrypt the plaintext using the Caesar cipher
-    ciphertext = caesar_encryption(plaintext, 3)
+    ciphertext = caesar_encryption(plaintext, key)
 
     # Write the ciphertext to a file
     with open("caesarCrypto.txt", "w") as file:
@@ -229,14 +230,14 @@ def main():
     ciphertext = get_text_from_file("caesarCrypto.txt")
 
     # Decrypt the ciphertext using the Caesar cipher
-    plaintext = caesar_decryption(ciphertext, 3)
+    plaintext = caesar_decryption(ciphertext, key)
 
     # Write the plaintext to a file
     with open("caesarPlain.txt", "w") as file:
         file.write(plaintext)
 
     # Encrypt the plaintext using the rail fence cipher
-    ciphertext = rail_fence_encryption(plaintext, 3)
+    ciphertext = rail_fence_encryption(plaintext, key)
 
     # Write the ciphertext to a file
     with open("railCrypto.txt", "w") as file:
@@ -246,14 +247,14 @@ def main():
     ciphertext = get_text_from_file("railCrypto.txt")
 
     # Decrypt the ciphertext using the rail fence cipher
-    plaintext = rail_fence_decryption(ciphertext, 3)
+    plaintext = rail_fence_decryption(ciphertext, key)
 
     # Write the plaintext to a file
     with open("railPlain.txt", "w") as file:
         file.write(plaintext)
 
     # Encrypt the plaintext using the rotary enigma cipher
-    ciphertext = rotary_enigma_encrypt(plaintext, 3)
+    ciphertext = rotary_enigma_encrypt(plaintext, key)
 
     # Write the ciphertext to a file
     with open("enigmaCrypto.txt", "w") as file:
@@ -263,7 +264,7 @@ def main():
     ciphertext = get_text_from_file("enigmaCrypto.txt")
 
     # Decrypt the ciphertext using the rotary enigma cipher
-    plaintext = rotary_enigma_decrypt(ciphertext, 3)
+    plaintext = rotary_enigma_decrypt(ciphertext, key)
 
     # Write the plaintext to a file
     with open("enigmaPlain.txt", "w") as file:
