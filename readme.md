@@ -11,3 +11,5 @@
 python3 <filename>.py
 ```
 3. The algorithm will read the input from the `plaintext.txt` file and write the output to a file for each algorithm on the same directory.
+
+Do notice that the key for each algorithm is present on the `key.txt` file as a int value. You can change the key to your liking.
